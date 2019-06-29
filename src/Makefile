@@ -126,7 +126,7 @@ SRCSASM:= \
 OBJS := ${SRCS:.c=.o}
 OBJSASM := ${SRCSASM:.x=.o}
 
-CC:=avr32-gcc
+CC:=./avr32-gcc
 INC:= \
 	-I$(SRCDIR) \
 	-I$(SRCDIR)/CCID/LOCAL_ACCESS \
@@ -179,7 +179,7 @@ all: USB_MASS.elf
 	ls -lh $<
 
 clean:
-	rm $(OBJS) $(OBJSASM)
+	-rm $(OBJS) $(OBJSASM)
 
 USB_MASS.elf: $(OBJS) $(OBJSASM)
 	$(RUNLINK) -o$@ $^  $(RUNLINK2)
