@@ -1,0 +1,13 @@
+*.txt
+*.list
+*.tar.gz
+*.sha256sum
+cmake-build-debug
+.idea/
+*.sig
+*.swp
+*.bin
+*.log
+*.elf
+*.hex
+*.o
