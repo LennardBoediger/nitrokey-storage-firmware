@@ -73,7 +73,6 @@
 #include "SD_Test.h"
 #include "file_io.h"
 #include "OTP/report_protocol.h"
-#include "HighLevelFunctions/MatrixPassword.h"
 #include "HighLevelFunctions/HiddenVolume.h"
 
 
@@ -159,7 +158,6 @@ void HID_ExcuteCmd (void)
 {
     u8 StorageKey_pu8[32];
     u8 Cmd_u8;
-    u8* PasswordMatrix_pu8;
     u8 ret_u8;
     u64 timestamp;
     u32 Len;
@@ -210,11 +208,7 @@ void HID_ExcuteCmd (void)
                     break;
                 case 'M':  // matrix password
                     // Convert matrix input to password
-                    if (FALSE == ConvertMatrixDataToPassword (&HID_String_au8[1]))
-                    {
-                        UpdateStick20Command (OUTPUT_CMD_STICK20_STATUS_WRONG_PASSWORD, 0);
-                        return;
-                    }
+                    // TODO return error
                     break;
             }
             break;
@@ -227,11 +221,7 @@ void HID_ExcuteCmd (void)
                     break;
                 case 'M':  // matrix password
                     // Convert matrix input to password
-                    if (FALSE == ConvertMatrixDataToPassword (&HID_String_au8[2]))
-                    {
-                        UpdateStick20Command (OUTPUT_CMD_STICK20_STATUS_WRONG_PASSWORD, 0);
-                        return;
-                    }
+                    // TODO return error
                     break;
             }
             break;
@@ -542,33 +532,6 @@ void HID_ExcuteCmd (void)
 
             UpdateStick20Command (OUTPUT_CMD_STICK20_STATUS_WRONG_PASSWORD, 0);
             CI_TickLocalPrintf ("*** wrong password - NOT USED ***\r\n");
-            break;
-
-        case HTML_CMD_SEND_PASSWORD_MATRIX:
-            CI_TickLocalPrintf ("Get SEND_PASSWORD_MATRIX\r\n");
-
-            PasswordMatrix_pu8 = GetCorrectMatrix ();
-
-            Stick20HIDInitSendMatrixData (PasswordMatrix_pu8);
-
-            UpdateStick20Command (OUTPUT_CMD_STICK20_STATUS_PASSWORD_MATRIX_READY, 0);
-            break;
-
-        case HTML_CMD_SEND_PASSWORD_MATRIX_PINDATA:
-            CI_TickLocalPrintf ("Get SEND_PASSWORD_MATRIX_PINDATA\r\n");
-
-            CI_TickLocalPrintf ("Data 1 : %s\r\n", HID_String_au8);
-
-            // PasswordMatrix_pu8 = GetCorrectMatrix ();
-
-            UpdateStick20Command (OUTPUT_CMD_STICK20_STATUS_OK, 0);
-            break;
-
-        case HTML_CMD_SEND_PASSWORD_MATRIX_SETUP:
-            CI_TickLocalPrintf ("Get SEND_PASSWORD_MATRIX_SETUP\r\n");
-            CI_TickLocalPrintf ("Data : %s\r\n", HID_String_au8);
-            WriteMatrixColumsUserPWToUserPage (&HID_String_au8[1]); // Data is in ASCII
-            UpdateStick20Command (OUTPUT_CMD_STICK20_STATUS_OK, 0);
             break;
 
 
