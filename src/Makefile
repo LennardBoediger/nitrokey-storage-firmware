@@ -186,7 +186,8 @@ USB_MASS.elf: $(OBJS) $(OBJSASM)
 	ls -lh $@
 
 %.o: %.c
-	$(RUN) -o $@ $<
+	@echo "*** $<"
+	@$(RUN) -o $@ $<
 
 %.o: %.x
 	$(RUNASM) -o $@ $<
